@@ -7,7 +7,6 @@
     <li>KOKO Ambinintsoa Kantisambatra</li>
     <li>BITA Beni Mike</li>
     <li>CHE Arthur</li>
-    <li>Thanushan Tharmabalan</li>
     <li>THARMABALAN Thanushan</li>
     <li>BENTALEB Hicham</li>
 </ul>
