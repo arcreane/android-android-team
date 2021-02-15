@@ -1,5 +1,5 @@
 # android-android-team
-<h1>Projet Android Studio Java</h1>
+<h1>Projet Android Studio Java - Jeux de Solitaire</h1>
 <h2>Les Participants</h2>
 
 <!--Un exemple de liste non-ordonnée-->
