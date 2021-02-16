@@ -58,13 +58,9 @@ public class Game implements Serializable {
     }
 
 
-
-
     /**
-     * Vérifie la carte peut être déposé sur l'une des quatre stacks.
-     * @param card La carte à déposer.
-     * @return L'indice de la stack sur laquelle la carte peut être déposée,
-     *         -1 si ce n'est pas possible.
+     - On vérifie la carte si elle peut être déposé sur l'une des quatre stacks.
+     * On vérifie si l'indice de la stack sur laquelle la carte peut être déposée.
      */
     public int canMoveCardToStack( Card card ) {
         // Au cas où une stack est vide et que la carte est un as on fait
@@ -87,8 +83,6 @@ public class Game implements Serializable {
 
         return -1;
     }
-
-
 
 
     /**
@@ -117,9 +111,6 @@ public class Game implements Serializable {
         return -1;
     }
 
-
-
-
     /**
      - On vérifie si le jeu est terminé, chaque stack doit avoir bien 13 cartes.
      - C'est vrai si le jeu est terminé, false dans le cas contraire.
@@ -130,8 +121,6 @@ public class Game implements Serializable {
                 stacks[2].isEmpty() == false && stacks[2].lastElement().getValue() == 13 &&
                 stacks[3].isEmpty() == false && stacks[3].lastElement().getValue() == 13;
     }
-
-
 
     /**
      - Ici on peut voir et savoir si toutes les cartes du jeu sont retournées et si qu'on peut lancer une terminaison automatique du jeu.
