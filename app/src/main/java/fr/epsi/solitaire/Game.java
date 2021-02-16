@@ -60,4 +60,31 @@ public class Game implements Serializable {
 
 
 
+    /**
+     * Vérifie la carte peut être déposé sur l'une des quatre stacks.
+     * @param card La carte à déposer.
+     * @return L'indice de la stack sur laquelle la carte peut être déposée,
+     *         -1 si ce n'est pas possible.
+     */
+    public int canMoveCardToStack( Card card ) {
+        // Au cas où une stack est vide et que la carte est un as on fait
+        if ( card.getValue() == 1 ) {
+            int stackIndex = 0;
+            while( ! this.stacks[stackIndex].isEmpty() ) {
+                stackIndex++;
+            }
+            return stackIndex;
+        }
+
+        // Au cas où ce n'est pas un as, on eput faire empiler la carte sur une carte d'une autre valeur inférieure dans l'une des piles.
+        for( int stackIndex=0; stackIndex<STACK_COUNT; stackIndex++ ) {
+            Stack stack = this.stacks[stackIndex];
+            if ( ! stack.isEmpty() ) {
+                if ( stack.lastElement().getType() != card.getType() ) continue;
+                if ( stack.lastElement().getValue() == card.getValue()-1 ) return stackIndex;
+            }
+        }
+
+        return -1;
+    }
 }
