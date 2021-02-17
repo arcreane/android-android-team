@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -33,6 +35,7 @@ public class GameView extends View {
     float deckHeight;
     float deckMargin;
 
+    private Paint paint = new Paint( Paint.ANTI_ALIAS_FLAG );
 
     public GameView(Context context) {
         super(context);
@@ -139,4 +142,156 @@ public class GameView extends View {
         return ( getHeight()*0.9f - getHeight()*0.3f ) / 17f;
     }
 
+    /**
+     * Cette méthode permet de tracer une carte à la position spécifiée en paramètre.
+     * @param canvas Le canvas à utiliser.
+     * @param card  La carte à dessiner. Si vous passez un pointeur nul,
+     *              juste le contour de la carte sera tracé (état initial des stacks par exemple).
+     * @param x La position en x de tracé.
+     * @param y La position en y de tracé.
+     */
+    public void drawCard(Canvas canvas, Card card, float x, float y ) {
+        float cornerWidth = deckWidth / 10f;
+
+        RectF rectF = new RectF( x, y, x + deckWidth, y + deckHeight );
+
+        // Si card == null alors on ne trace que le contour de la carte
+        if ( card == null ) {
+            paint.setStyle(Paint.Style.STROKE);
+            paint.setColor(0xff_40_40_40);
+            canvas.drawRoundRect(rectF, cornerWidth, cornerWidth, paint);
+            paint.setStyle(Paint.Style.FILL);
+            return;
+        }
+
+        paint.setStyle(Paint.Style.FILL);
+        paint.setColor( card.isReturned() ? 0xff_ff_ff_ff : 0xff_a0_c0_a0 );
+        canvas.drawRoundRect(rectF, cornerWidth, cornerWidth, paint);
+
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setColor( 0xff_00_00_00 );
+        canvas.drawRoundRect(rectF, cornerWidth, cornerWidth, paint);
+
+        if ( card.isReturned() ) {
+            Bitmap image;
+            Bitmap imageLittle;
+            int color;
+            switch (card.getType()) {
+                case CARREAU:
+                    image = imgCarreau;
+                    imageLittle = imgCarreauLittle;
+                    color = 0xff_e6_14_08;
+                    break;
+                case COEUR:
+                    image = imgCoeur;
+                    imageLittle = imgCoeurLittle;
+                    color = 0xff_e6_14_08;
+                    break;
+                case PIQUE:
+                    image = imgPique;
+                    imageLittle = imgPiqueLittle;
+                    color = 0xff_00_00_00;
+                    break;
+                default:
+                    image = imgTreffle;
+                    imageLittle = imgTreffleLittle;
+                    color = 0xff_00_00_00;
+            }
+
+            paint.setStyle(Paint.Style.FILL);
+            paint.setTextSize( deckWidth / 2.4f );
+            paint.setFakeBoldText( true );
+            paint.setTextAlign( Paint.Align.LEFT );
+            paint.setColor( color );
+            if ( card.getValue() != 10 ) {
+                canvas.drawText(card.getName(), x + deckWidth * 0.1f, y + deckHeight * 0.32f, paint);
+            } else {
+                canvas.drawText( "1", x + deckWidth * 0.1f, y + deckHeight * 0.32f, paint);
+                canvas.drawText( "0", x + deckWidth * 0.3f, y + deckHeight * 0.32f, paint);
+            }
+            canvas.drawBitmap( imageLittle, x + deckWidth*0.9f - imageLittle.getWidth(),
+                    y + deckHeight * 0.1f, paint );
+            canvas.drawBitmap( image, x + (deckWidth - image.getWidth())/ 2f,
+                    y + (deckHeight*0.9f - image.getHeight()) , paint );
+            paint.setFakeBoldText( false );
+        } else {
+            canvas.drawBitmap(imgBack, x, y, paint);
+        }
+    }
+
+
+    /**
+     * On trace l'aire de jeu
+     * @param canvas Le canvas à utiliser.
+     */
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+
+        // --- Background ---
+        paint.setColor(backgroundColor);
+        paint.setStyle( Paint.Style.FILL );
+        canvas.drawRect(0, 0, getWidth(), getHeight(), paint);
+
+        // --- Draw the Header ---
+
+        float widthDiv10 = getWidth() / 10f;
+        float heightDiv10 = getHeight() / 10f;
+
+        paint.setColor( headerBackgroundColor );
+        RectF rectF = new RectF(0, 0, getWidth(), getHeight() * 0.15f);
+        canvas.drawRect(rectF, paint);
+
+        paint.setColor(redColor);
+        paint.setTextAlign( Paint.Align.CENTER );
+        paint.setTextSize( (int) (getWidth() / 8.5) );
+        canvas.drawText( getResources().getString(R.string.app_name),
+                widthDiv10 * 5, (int) (heightDiv10 * 0.8), paint );
+
+        paint.setColor( headerForegroundColor );
+        paint.setTextAlign( Paint.Align.LEFT );
+        paint.setTextSize( getWidth() / 20f );
+        paint.setStrokeWidth(1);
+        canvas.drawText( "V 1.0", (int) (widthDiv10 * 0.5), (int) (heightDiv10 * 1.3), paint );
+
+        paint.setTextAlign( Paint.Align.RIGHT );
+        canvas.drawText( "By Epsi", (int) (widthDiv10 * 9.5), (int) (heightDiv10 * 1.3), paint );
+
+
+        // --- Draw the fourth stacks ---
+        paint.setStrokeWidth( getWidth() / 200f );
+
+        for (int i = 0; i < Game.STACK_COUNT; i++) {
+            Game.Stack stack = game.stacks[i];
+            rectF = computeStackRect( i );
+            drawCard( canvas, stack.isEmpty() ? null : stack.lastElement(), rectF.left, rectF.top );
+        }
+
+        // --- Draw the pioche ---
+        rectF = computeReturnedPiocheRect();
+        drawCard( canvas, game.returnedPioche.isEmpty() ? null : game.returnedPioche.lastElement(),
+                rectF.left, rectF.top );
+
+        rectF = computePiocheRect();
+        drawCard(canvas, game.pioche.isEmpty() ? null : game.pioche.lastElement(), rectF.left, rectF.top);
+
+        // --- Draw the seven decks ---
+        for ( int i = 0; i < Game.DECK_COUNT; i++ ) {
+            Game.Deck deck = game.decks[i];
+
+            if ( deck.isEmpty() ) {
+                rectF = computeDeckRect(i, 0);
+                drawCard( canvas, null, rectF.left, rectF.top );
+            } else {
+                for ( int cardIndex = 0; cardIndex < deck.size(); cardIndex++ ) {
+                    Card card = deck.get(cardIndex);
+                    rectF = computeDeckRect(i, cardIndex);
+                    drawCard(canvas, card, rectF.left, rectF.top);
+                }
+            }
+
+        }
+    }
+
 }
+
