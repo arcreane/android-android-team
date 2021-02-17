@@ -1,6 +1,4 @@
 # android-android-team
-Partie3 Thanushan THARMABALAN
-- Choix des couleurs dans le fichier colors.xml.
-- Creation de la classe GameView avec deux methodes permettant :
-    - Le chargement des couleurs
-    - Le chargement des images des cartes
+Partie4 Arthur CHE
+- Ajout des positions des piles de cartes, de la pioche, de la défausse dans la classe GameView
+- Ajout du pinceau permettant le dessin de l'aire de jeu et des cartes
