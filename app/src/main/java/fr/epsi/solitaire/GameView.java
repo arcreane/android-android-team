@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -89,8 +90,53 @@ public class GameView extends View {
         } catch (Exception exception) {
             Log.e("ERROR", "Error loading card images");
         }
-
     }
 
+    /**
+     * Calcul de la "bounding box" de la stack spécifiée en paramètre.
+     */
+    private RectF computeStackRect( int index ) {
+        float x = deckMargin + (deckWidth + deckMargin) * index;
+        float y = getHeight() * 0.17f;
+        return new RectF( x, y, x+deckWidth, y+deckHeight );
+    }
+
+
+    /**
+     * Calcul de la "bounding box" de la pile retournée associée à la pioche.
+     */
+    private RectF computeReturnedPiocheRect() {
+        float x = deckMargin + (deckWidth + deckMargin) * 5;
+        float y = getHeight() * 0.17f;
+        return new RectF( x, y, x+deckWidth, y+deckHeight );
+    }
+
+
+    /**
+     * Calcul de la "bounding box" de la pile découverte associée à la pioche.
+     */
+    private RectF computePiocheRect() {
+        float x = deckMargin + (deckWidth + deckMargin) * 6;
+        float y = getHeight() * 0.17f;
+        return new RectF( x, y, x+deckWidth, y+deckHeight );
+    }
+
+
+    /**
+     * Calcul de la "bounding box" du deck spécifié en paramètre.
+     */
+    private RectF computeDeckRect(int index, int cardIndex ) {
+        float x = deckMargin + (deckWidth + deckMargin) * index;
+        float y = getHeight() * 0.30f + cardIndex * computeStepY();
+        return new RectF( x, y, x+deckWidth, y+deckHeight );
+    }
+
+
+    /**
+     * Calcul du décalage en y pour toutes les cartes d'un deck.
+     */
+    public float computeStepY() {
+        return ( getHeight()*0.9f - getHeight()*0.3f ) / 17f;
+    }
 
 }
