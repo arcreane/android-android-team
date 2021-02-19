@@ -17,5 +17,5 @@
    Si vous ne pouvez pas jouer cette carte, vous devez la glisser sous votre talon et en reprendre une nouvelle jusqu’à ce que vous puissiez en placer une.</p>
    <img src="/app/src/main/res/drawable/solitaire.jpg" alt="Solitaire image" width="500" height="600">
    <h4>Comment jouer au Solitaire :</h4>
-    <p>Une partie de solitaire se termine lorsque les 4 piles de symboles sont complètes.
-    ATTENTION : Vous ne pouvez pas gagner à tous les coups !!! Il est possible que vous soyez bloqué sans possibilité de jouer une carte. La partie s’arrête donc là.</p>
+    <p>Une partie de solitaire se termine lorsque les 4 piles de symboles sont complètes.</p>
+    <p><em><strong>ATTENTION :</strong></em> Vous ne pouvez pas gagner à tous les coups !!! Il est possible que vous soyez bloqué sans possibilité de jouer une carte. La partie s’arrête donc là.</p>
