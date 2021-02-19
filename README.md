@@ -1,3 +1,3 @@
 # android-android-team
-Partie5 Hicham BENTALEB
-- Mise en place d'un système de detéction et de gestion des actions menées par le user
+<h1>EPSI SOLITAIRE</h1>
+<h3>Application Android fonctionnel version 1.0 de l'application My SOLITAIRE</h3>
