@@ -1,5 +1,15 @@
 # android-android-team
 <h1>EPSI SOLITAIRE</h1>
+<h2>Participant</h2>
+<ul>
+  <li>KOKO Ambinintsoa Kantisambatra</li>
+  <li>THARMABALAN Thanushan</li>
+  <li>BITA Beni Mike</li>
+  <li>BENASR Jouda</li>
+  <li>CHE Arthur</li>
+  <li>BENTALEB Hicham</li>
+</ul>
+
 <h3>Application Android fonctionnel version 1.0 de l'application My SOLITAIRE</h3>
 <h4>Comment jouer au Solitaire :</h4>
 <p>Le <strong>but du solitaire</strong> est de former 4 piles de cartes (chaque pile comprenant les cartes d’un même symbole) classées dans l’ordre croissant : As, 2, 3, 4, 5, 6, 7, 8, 9, 10, Valet, Dame, Roi. Ces 4 piles sont à réaliser à côté des 7 colonnes. Chaque pile doit commencer par un As.
